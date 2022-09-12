@@ -48,12 +48,13 @@ life_satisfaction = country_stats.values[:,1]
 countries = list(country_stats.index)
 
 #%% Plot original data
+'''
 plt.figure()
 plt.xlabel('GDP')
 plt.ylabel('Life Satisfaction')
 plt.title('GDP vs Life Satisfaction')
 plt.plot(GDP,life_satisfaction,'o')
-
+'''
 
 #%% Normalization
 data = np.asarray(GDP.reshape(-1,1))
@@ -65,5 +66,51 @@ yMin=min(life_satisfaction)
 X=np.asarray([(xMax-i)/(xMax-xMin) for i in data])
 Y=np.asarray([(yMax-i)/(yMax-yMin) for i in life_satisfaction])
 
-plt.figure()
-plt.plot(X,Y,'o')
+
+#%% Closed Form
+X_model = np.linspace(xMin-4000,xMax+4000)
+Y=np.expand_dims(Y, axis=1)
+
+X_b = np.ones((X.shape[0],2))
+X_b[:,1]=X.T
+
+thetaCF=np.linalg.inv(X_b.T@X_b)@X_b.T@Y
+
+scaled_thetaCF=[yMax-(yMax-yMin)*(thetaCF[0]+thetaCF[1]*(xMax/(xMax-xMin))),(yMax-yMin)/(xMax-xMin)*thetaCF[1]]
+life_satisfaction_modelCF=scaled_thetaCF[0]+scaled_thetaCF[1]*X_model
+
+
+#%% Gradient Descent
+def Gradient_Descent(eta,n_iterations,X_b,Y):
+    n=X_b.shape[0]
+    np.random.seed(117)
+    theta=np.random.rand(2,1)
+    theta_list = np.array(theta)
+    for iteration in range(n_iterations):
+        gradients = 2/n*X_b.T@(X_b@theta-Y)
+        theta=theta-eta*gradients
+        theta_list=np.append(theta_list,theta,axis=1)
+    return theta, theta_list
+    
+theta_gd,theta_list_gd = Gradient_Descent(0.3, 120, X_b, Y)
+
+scaled_theta_gd=[yMax-(yMax-yMin)*(theta_gd[0]+theta_gd[1]*(xMax/(xMax-xMin))),(yMax-yMin)/(xMax-xMin)*theta_gd[1]]
+
+life_satisfaction_model_gd=scaled_theta_gd[0]+scaled_theta_gd[1]*X_model
+
+
+#%% Plotting
+
+#Figure 1
+
+plt.figure(figsize=(6.5,3))
+plt.plot(X_model,life_satisfaction_modelCF, '--', color='k', label = 'Closed Form Model')
+
+plt.plot(X_model,life_satisfaction_model_gd, '--', color='r', label = 'Gradient Descent Model')
+plt.plot(data, life_satisfaction, 'o', markersize=7, label='training data')
+
+plt.xlabel('GDP (U.S. Dollars)')
+plt.ylabel('OCED Life Satsifaction Index')
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
