@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Gradient Descent Python Example
+"""
+import IPython as IP
+IP.get_ipython().magic('reset -sf')
+
+import matplotlib as mlp
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy as sp
+from sklearn import datasets, preprocessing, linear_model, pipeline
+from sklearn.linear_model import LinearRegression
+
+
+
+plt.close('all')
+
+
+def gradient_descent(x,y):
+    pass
+
+x=np.array([1,2,3,4,5])
+y=np.array([5,7,9,11,13])
