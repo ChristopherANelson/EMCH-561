@@ -42,7 +42,13 @@ plt.scatter(X_train,y_train, label='Training Set')
 plt.scatter(X_val,y_val, label='Validation Set', marker='X')
 plt.ylim(0,10)
 
+plt.figure("fig3")
+plt.scatter(X_train,y_train, label='Training Set')
+plt.scatter(X_val,y_val, label='Validation Set', marker='X')
+plt.ylim(0,10)
+
 #%% POLY REGRESSION 2
+plt.figure("fig1")
 poly_features = PolynomialFeatures(degree=2,include_bias=(False))
 X_poly=poly_features.fit_transform(X)
 
@@ -112,8 +118,8 @@ for i in range(1,len(X_train)):
     
 plt.figure("fig2")
 plt.grid(True)
-plt.plot(train_errors,marker='o',label='training set polynomial')
-plt.plot(val_errors,marker='o',label='validation set polynomial')
+plt.plot(train_errors,marker='s',color='tab:blue',label='training set polynomial')
+plt.plot(val_errors,marker='s',linestyle='--',color='g',label='validation set polynomial')
 plt.xlabel('number of data points in training set')
 plt.ylabel('mean squared error')
 plt.legend()
@@ -128,7 +134,7 @@ plt.figure("fig1")
 poly_features = PolynomialFeatures(degree=16,include_bias=(False))
 X_poly=poly_features.fit_transform(X)
 
-rig = Ridge()
+rig = Ridge(alpha=1)
 rig.fit(X_poly,y)
 
 X_model=np.linspace(-3,3,100).reshape(-1,1)
@@ -181,11 +187,34 @@ for i in range(1,len(X_train)):
     
 plt.figure("fig2")
 plt.grid(True)
-plt.plot(train_errors,marker='s',linestyle='--',label='training set ridge')
-plt.plot(val_errors,marker='s',linestyle='--',label='validation set ridge')
+plt.plot(train_errors,marker='o',color='tab:orange',label='training set ridge')
+plt.plot(val_errors,marker='o',linestyle='--',color = 'tab:red', label='validation set ridge')
 plt.xlabel('number of data points in training set')
 plt.ylabel('mean squared error')
 plt.legend()
 plt.tight_layout()
 plt.legend(framealpha=1)
 plt.ylim(0,8)
+
+plt.figure("fig3")
+alphas = [0.1,1,10,100]
+
+poly_features = PolynomialFeatures(degree=16,include_bias=(False))
+X_poly=poly_features.fit_transform(X)
+
+linestyles = ['-','--','dashdot','dotted']
+colors = ['g','r','orange','purple']
+
+for i in range(0,4):
+    rig = Ridge(alpha=alphas[i])
+    rig.fit(X_poly,y)
+
+    X_model=np.linspace(-3,3,100).reshape(-1,1)
+    X_vals_poly=poly_features.transform(X_vals)
+
+    y_vals = rig.predict(X_vals_poly)
+
+    labels = "Ridge[16], alpha = {}".format(alphas[i])
+    plt.plot(X_vals, y_vals, linestyle = linestyles[i], c=colors[i], label = labels, markevery = 5)
+
+plt.legend()
