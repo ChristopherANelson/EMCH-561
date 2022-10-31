@@ -140,12 +140,40 @@ plt.tight_layout()
 # CM for Softmax
 Y_train_pred = sk.model_selection.cross_val_predict(softmax_regression, X_sepal_norm, Y, cv=3)
 confusion_matrix = sk.metrics.confusion_matrix(Y, Y_train_pred)
+print('Confusion Matrix: Softmax')
 print(confusion_matrix)
+
+SM_accuracy = (confusion_matrix[0][0]+confusion_matrix[1][1]+confusion_matrix[2][2])/confusion_matrix.sum()
+print('------Softmax Accuracy------')
+print('\n Accuracy = ' +str(SM_accuracy*100) +'%')
+
+
+SM_precision_Setosa=confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[1][0]+confusion_matrix[2][0])
+SM_precision_Versicolor=confusion_matrix[1][1]/(confusion_matrix[0][1]+confusion_matrix[1][1]+confusion_matrix[2][1])
+SM_precision_Virginica=confusion_matrix[2][2]/(confusion_matrix[0][2]+confusion_matrix[1][2]+confusion_matrix[2][2])
+
+print('\n ------Softmax Precision------- ')
+print('\n Setosa: ' +str(SM_precision_Setosa*100) +'%')
+print('\n Versicolor: ' +str(SM_precision_Versicolor*100) +'%')
+print('\n Virginica: '+str(SM_precision_Virginica*100) +'%')
+
+
+SM_recall_Setosa=confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[0][1]+confusion_matrix[0][2])
+SM_recall_Versicolor=confusion_matrix[1][1]/(confusion_matrix[1][0]+confusion_matrix[1][1]+confusion_matrix[1][2])
+SM_recall_Virginica=confusion_matrix[2][2]/(confusion_matrix[2][0]+confusion_matrix[2][1]+confusion_matrix[2][2])
+
+
+print('\n ------Softmax Recall------')
+print('\n Setosa: ' +str(SM_recall_Setosa*100) +'%')
+print('\n Versicolor: ' +str(SM_recall_Versicolor*100) +'%')
+print('\n Virginica: '+str(SM_recall_Virginica*100) +'%')
+
+
 
 fig = plt.figure(figsize=(4,4))
 pos = plt.imshow(confusion_matrix)
 cbar =plt.colorbar(pos)
-plt.title("SVM/OVR Confusion Matrix")
+plt.title("Softmax Classification Confusion Matrix")
 cbar.set_label('number of classified digits')
 plt.ylabel('actual digit')
 plt.xlabel('estimated digit')
@@ -154,14 +182,41 @@ plt.xlabel('estimated digit')
 # CM for Linear Model
 Y_train_pred = sk.model_selection.cross_val_predict(ovr_clf, X_sepal_norm, Y, cv=3)
 confusion_matrix = sk.metrics.confusion_matrix(Y, Y_train_pred)
+print('\n Confusion Matrix: Linear Model')
 print(confusion_matrix)
+
+LOG_accuracy = (confusion_matrix[0][0]+confusion_matrix[1][1]+confusion_matrix[2][2])/confusion_matrix.sum()
+print('------Logistic OVR Accuracy------')
+print('\n Accuracy = ' +str(SM_accuracy*100) +'%')
+
+
+LOG_precision_Setosa=confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[1][0]+confusion_matrix[2][0])
+LOG_precision_Versicolor=confusion_matrix[1][1]/(confusion_matrix[0][1]+confusion_matrix[1][1]+confusion_matrix[2][1])
+LOG_precision_Virginica=confusion_matrix[2][2]/(confusion_matrix[0][2]+confusion_matrix[1][2]+confusion_matrix[2][2])
+
+print('\n ------Logistic OVR Precision------- ')
+print('\n Setosa: ' +str(SM_precision_Setosa*100) +'%')
+print('\n Versicolor: ' +str(SM_precision_Versicolor*100) +'%')
+print('\n Virginica: '+str(SM_precision_Virginica*100) +'%')
+
+
+LOG_recall_Setosa=confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[0][1]+confusion_matrix[0][2])
+LOG_recall_Versicolor=confusion_matrix[1][1]/(confusion_matrix[1][0]+confusion_matrix[1][1]+confusion_matrix[1][2])
+LOG_recall_Virginica=confusion_matrix[2][2]/(confusion_matrix[2][0]+confusion_matrix[2][1]+confusion_matrix[2][2])
+
+
+print('\n ------Logistic OVR Recall------')
+print('\n Setosa: ' +str(SM_recall_Setosa*100) +'%')
+print('\n Versicolor: ' +str(SM_recall_Versicolor*100) +'%')
+print('\n Virginica: '+str(SM_recall_Virginica*100) +'%')
+
 
 
 
 fig = plt.figure(figsize=(4,4))
 pos = plt.imshow(confusion_matrix)
 cbar =plt.colorbar(pos)
-plt.title("Logistic/OVR Confusion Matrix")
+plt.title("Logistic OVR Confusion Matrix")
 cbar.set_label('number of classified digits')
 plt.ylabel('actual digit')
 plt.xlabel('estimated digit')
@@ -169,19 +224,45 @@ plt.xlabel('estimated digit')
 # CM for Support Vector Machine
 Y_train_pred = sk.model_selection.cross_val_predict(svm_clf, X_sepal_norm, Y, cv=3)
 confusion_matrix = sk.metrics.confusion_matrix(Y, Y_train_pred)
+print('\n Confusion Matrix: Support Vector Machine')
 print(confusion_matrix)
+
+SVM_accuracy = (confusion_matrix[0][0]+confusion_matrix[1][1]+confusion_matrix[2][2])/confusion_matrix.sum()
+print('------SVM OVR Accuracy------')
+print('\n Accuracy = ' +str(SM_accuracy*100) +'%')
+
+
+SVM_precision_Setosa=confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[1][0]+confusion_matrix[2][0])
+SVM_precision_Versicolor=confusion_matrix[1][1]/(confusion_matrix[0][1]+confusion_matrix[1][1]+confusion_matrix[2][1])
+SVM_precision_Virginica=confusion_matrix[2][2]/(confusion_matrix[0][2]+confusion_matrix[1][2]+confusion_matrix[2][2])
+
+print('\n ------SVM OVR Precision------- ')
+print('\n Setosa: ' +str(SM_precision_Setosa*100) +'%')
+print('\n Versicolor: ' +str(SM_precision_Versicolor*100) +'%')
+print('\n Virginica: '+str(SM_precision_Virginica*100) +'%')
+
+
+SVM_recall_Setosa=confusion_matrix[0][0]/(confusion_matrix[0][0]+confusion_matrix[0][1]+confusion_matrix[0][2])
+SVM_recall_Versicolor=confusion_matrix[1][1]/(confusion_matrix[1][0]+confusion_matrix[1][1]+confusion_matrix[1][2])
+SVM_recall_Virginica=confusion_matrix[2][2]/(confusion_matrix[2][0]+confusion_matrix[2][1]+confusion_matrix[2][2])
+
+
+print('\n ------SVM OVR Recall------')
+print('\n Setosa: ' +str(SM_recall_Setosa*100) +'%')
+print('\n Versicolor: ' +str(SM_recall_Versicolor*100) +'%')
+print('\n Virginica: '+str(SM_recall_Virginica*100) +'%')
+
+
 
 fig = plt.figure(figsize=(4,4))
 pos = plt.imshow(confusion_matrix)
 cbar =plt.colorbar(pos)
-plt.title("SVM/OVR Confusion Matrix")
+plt.title("SVM OVR Confusion Matrix")
 cbar.set_label('number of classified digits')
 plt.ylabel('actual digit')
 plt.xlabel('estimated digit')
 
 
-# remove the values on the diag. So we can do this by replacing values on the
-# diag with NaN
 confusion_matrix_noise = np.copy(np.asarray(confusion_matrix,dtype=np.float64))
 np.fill_diagonal(confusion_matrix_noise, np.NaN)
 
